@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Estatístico IHC - Versão Final Consolidada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; cursor: crosshair; }
+        .chart-container { position: relative; height: 220px; width: 100%; }
+        .card { background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; }
+        .card:hover { border-color: #6366f1; }
+        .hidden-section { display: none !important; }
+        #mouse-tracker { 
+            position: fixed; pointer-events: none; background: rgba(15, 23, 42, 0.9); 
+            color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; z-index: 9999; 
+            font-family: monospace; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        :focus { outline: 4px solid #6366f1; outline-offset: 4px; }
+        fieldset { border: 2px solid #e2e8f0; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; }
+        legend { padding: 0 0.75rem; font-weight: 800; color: #6366f1; text-transform: uppercase; font-size: 0.75rem; }
+    </style>
+</head>
+<body onmousemove="updateMouseTracker(event)">
+
+    <div id="mouse-tracker">Coordenadas</div>
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <div id="dashboard-view">
+            <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight" onmouseover="falar('Painel Estatístico de Diaristas')">Painel Estatístico: Diaristas</h1>
+                    <p class="text-slate-500 font-medium">Análise IHC e Acessibilidade • Projeto Integrador I</p>
+                </div>
+                <nav class="flex gap-3">
+                    <button onclick="showView('form-cadastro')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-indigo-700 transition" onmouseover="falar('Botão: Receber atualizações por e-mail')">Receber Atualizações</button>
+                    <button onclick="showView('form-feedback')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-indigo-700 transition" onmouseover="falar('Botão: Dar feedback sobre o sistema')">Enviar Feedback</button>
+                </nav>
+            </header>
+
+            <main>
+                <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="card border-l-4 border-indigo-500" onmouseover="falar('Total aproximado de 85 mil diaristas')">
+                        <h3 class="text-[10px] uppercase text-slate-400 font-black mb-1">Total (DF)</h3>
+                        <p class="text-2xl font-bold text-slate-800">~85.000</p>
+                    </div>
+                    <div class="card border-l-4 border-rose-500" onmouseover="falar('Seta e dois vírgula quatro por cento de informalidade')">
+                        <h3 class="text-[10px] uppercase text-slate-400 font-black mb-1">Informalidade</h3>
+                        <p class="text-2xl font-bold text-slate-800">72.4%</p>
+                    </div>
+                    <div class="card border-l-4 border-amber-500" onmouseover="falar('Rendimento médio mensal de 1450 reais')">
+                        <h3 class="text-[10px] uppercase text-slate-400 font-black mb-1">Média Salarial</h3>
+                        <p class="text-2xl font-bold text-slate-800">R$ 1.450</p>
+                    </div>
+                    <div class="card border-l-4 border-teal-500" onmouseover="falar('Média de 3 vírgula dois dias trabalhados por semana')">
+                        <h3 class="text-[10px] uppercase text-slate-400 font-black mb-1">Jornada</h3>
+                        <p class="text-2xl font-bold text-slate-800">3.2 dias</p>
+                    </div>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <section class="card" onmouseover="falar('Gráfico de barras sobre Faixa Etária')">
+                        <h2 class="font-bold text-slate-700 mb-4 border-b pb-2">Faixa Etária</h2>
+                        <div class="chart-container"><canvas id="ageChart"></canvas></div>
+                    </section>
+                    <section class="card" onmouseover="falar('Gráfico de rosca sobre Formalidade no D F')">
+                        <h2 class="font-bold text-slate-700 mb-4 border-b pb-2">Formalidade</h2>
+                        <div class="chart-container"><canvas id="informalChart"></canvas></div>
+                    </section>
+                    <section class="card" onmouseover="falar('Gráfico de pizza sobre Escolaridade')">
+                        <h2 class="font-bold text-slate-700 mb-4 border-b pb-2">Escolaridade</h2>
+                        <div class="chart-container"><canvas id="eduChart"></canvas></div>
+                    </section>
+                </div>
+
+                <section class="card" onmouseover="falar('Tabela detalhada de demandas por Região Administrativa')">
+                    <h2 class="font-bold text-slate-700 mb-4 border-b pb-2">Detalhamento por Região (DF)</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 text-[11px] uppercase font-bold text-slate-500">
+                                <tr><th class="p-3">Região</th><th class="p-3">Demanda</th><th class="p-3">Valor Médio</th><th class="p-3">Crescimento</th></tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-slate-100">
+                                <tr onmouseover="falar('Plano Piloto: Valor 220 reais')"><td class="p-3 font-semibold">Plano Piloto</td><td class="p-3">Altíssimo</td><td class="p-3 text-indigo-600 font-bold">R$ 220,00</td><td class="p-3 text-emerald-500">+12%</td></tr>
+                                <tr onmouseover="falar('Águas Claras: Valor 180 reais')"><td class="p-3 font-semibold">Águas Claras</td><td class="p-3">Alto</td><td class="p-3 text-indigo-600 font-bold">R$ 180,00</td><td class="p-3 text-emerald-500">+8%</td></tr>
+                                <tr onmouseover="falar('Taguatinga e Ceilândia: Valor 140 reais')"><td class="p-3 font-semibold">Taguatinga / Ceilândia</td><td class="p-3">Médio</td><td class="p-3 text-indigo-600 font-bold">R$ 140,00</td><td class="p-3 text-amber-500">+2%</td></tr>
+                                <tr onmouseover="falar('Lago Sul e Norte: Valor 250 reais')"><td class="p-3 font-semibold">Lago Sul / Norte</td><td class="p-3">Altíssimo</td><td class="p-3 text-indigo-600 font-bold">R$ 250,00</td><td class="p-3 text-emerald-500">+15%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="form-cadastro" class="hidden-section flex justify-center py-10">
+            <main class="max-w-xl w-full bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+                <h2 class="text-2xl font-black text-slate-800 mb-6" onmouseover="falar('Tela de Cadastro para Atualizações')">Receber Atualizações</h2>
+                <form onsubmit="confirmar(event, 'Cadastro realizado com sucesso!')" class="space-y-4">
+                    <fieldset>
+                        <legend>Identificação do Usuário</legend>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="c-nome" class="block text-sm font-bold text-slate-700 mb-1">Nome Completo:</label>
+                                <input type="text" id="c-nome" name="nome" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-indigo-500 transition" onfocus="falar('Digite seu nome completo')">
+                            </div>
+                            <div>
+                                <label for="c-email" class="block text-sm font-bold text-slate-700 mb-1">E-mail Institucional:</label>
+                                <input type="email" id="c-email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-indigo-500 transition" onfocus="falar('Informe seu e-mail para contato')">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Políticas</legend>
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="c-consent" required class="w-5 h-5 accent-indigo-600">
+                            <label for="c-consent" class="text-sm font-medium text-slate-600">Concordo em receber dados semanais.</label>
+                        </div>
+                    </fieldset>
+                    <div class="flex gap-4">
+                        <button type="submit" class="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-black hover:bg-indigo-700 shadow-lg shadow-indigo-200">Finalizar Cadastro</button>
+                        <button type="button" onclick="showView('dashboard-view')" class="flex-1 bg-slate-100 text-slate-600 py-4 rounded-xl font-black">Cancelar</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <div id="form-feedback" class="hidden-section flex justify-center py-10">
+            <main class="max-w-xl w-full bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+                <h2 class="text-2xl font-black text-slate-800 mb-6" onmouseover="falar('Tela de Envio de Feedback')">Feedback do Sistema</h2>
+                <form onsubmit="confirmar(event, 'Obrigado por nos ajudar a melhorar!')" class="space-y-4">
+                    <div>
+                        <label for="f-nome" class="block text-sm font-bold text-slate-700 mb-1">Nome (Opcional):</label>
+                        <input type="text" id="f-nome" class="w-full border-2 border-slate-100 p-3 rounded-xl" onfocus="falar('Campo de nome opcional')">
+                    </div>
+                    <div>
+                        <label for="f-coment" class="block text-sm font-bold text-slate-700 mb-1">Comentário:</label>
+                        <textarea id="f-coment" rows="4" required class="w-full border-2 border-slate-100 p-3 rounded-xl" onfocus="falar('Por favor, escreva sua sugestão ou crítica')"></textarea>
+                    </div>
+                    <div>
+                        <label for="f-aval" class="block text-sm font-bold text-slate-700 mb-1">Avaliação:</label>
+                        <select id="f-aval" class="w-full border-2 border-slate-100 p-3 rounded-xl" onfocus="falar('Selecione uma nota para o sistema')">
+                            <option value="excelente">Excelente</option>
+                            <option value="bom">Bom</option>
+                            <option value="regular">Regular</option>
+                            <option value="ruim">Ruim</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="submit" class="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-black hover:bg-indigo-700 shadow-lg shadow-indigo-200">Enviar Feedback</button>
+                        <button type="button" onclick="showView('dashboard-view')" class="flex-1 bg-slate-100 text-slate-600 py-4 rounded-xl font-black">Voltar</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <footer class="mt-12 py-8 text-center text-slate-400 text-xs font-bold border-t tracking-widest uppercase">
+            <p>© 2026 • Projeto Integrador I • João Victor Rios Brito e Nascimento</p>
+        </footer>
+    </div>
+
+    <script>
+        function falar(texto) {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(texto);
+            msg.lang = 'pt-BR';
+            msg.rate = 1.1;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function updateMouseTracker(e) {
+            const tracker = document.getElementById('mouse-tracker');
+            tracker.style.display = 'block';
+            tracker.style.left = (e.clientX + 20) + 'px';
+            tracker.style.top = (e.clientY + 20) + 'px';
+            tracker.innerText = `POS: ${e.clientX}px , ${e.clientY}px`;
+        }
+
+        function showView(id) {
+            document.querySelectorAll('#dashboard-view, #form-cadastro, #form-feedback').forEach(v => v.classList.add('hidden-section'));
+            document.getElementById(id).classList.remove('hidden-section');
+            window.scrollTo(0,0);
+            if(id === 'form-cadastro') falar("Iniciando cadastro de atualizações.");
+            if(id === 'form-feedback') falar("Abrindo formulário de feedback.");
+            if(id === 'dashboard-view') falar("Retornando ao dashboard principal.");
+        }
+
+        function confirmar(e, msg) {
+            e.preventDefault();
+            falar(msg);
+            alert(msg);
+            showView('dashboard-view');
+        }
+
+        window.onload = function() {
+            const cfg = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+            new Chart(document.getElementById('ageChart'), { type: 'bar', data: { labels: ['18-24', '25-34', '35-44', '45-54', '55+'], datasets: [{ data: [8, 22, 35, 25, 10], backgroundColor: '#6366f1' }] }, options: cfg });
+            new Chart(document.getElementById('informalChart'), { type: 'doughnut', data: { labels: ['Informal', 'CLT', 'MEI'], datasets: [{ data: [72.4, 18.6, 9.0], backgroundColor: ['#f43f5e', '#10b981', '#f59e0b'] }] }, options: cfg });
+            new Chart(document.getElementById('eduChart'), { type: 'pie', data: { labels: ['Incomp.', 'Comp.', 'Médio', 'Sup.'], datasets: [{ data: [45, 25, 25, 5], backgroundColor: ['#94a3b8', '#64748b', '#475569', '#1e293b'] }] }, options: cfg });
+        };
+    </script>
+</body>
+</html>
