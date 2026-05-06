@@ -16,17 +16,10 @@
             scroll-behavior: smooth;
         }
 
-        .app-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        .app-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
 
         @media (min-width: 768px) {
-            .main-container {
-                display: flex;
-                flex: 1;
-            }
+            .main-container { display: flex; flex: 1; }
             .sidebar {
                 width: 280px;
                 background: white;
@@ -35,10 +28,7 @@
                 top: 88px;
                 height: calc(100vh - 88px);
             }
-            .content-main {
-                flex: 1;
-                padding: 2rem;
-            }
+            .content-main { flex: 1; padding: 2rem; }
         }
 
         .card { 
@@ -47,6 +37,12 @@
             padding: 1.5rem; 
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
+            transition: transform 0.2s;
+        }
+
+        .card:focus-within, .card:hover {
+            transform: translateY(-2px);
+            border-color: #6366f1;
         }
 
         .nav-btn {
@@ -63,14 +59,8 @@
             margin-bottom: 0.5rem;
         }
 
-        .nav-btn.active {
-            background-color: #6366f1;
-            color: white;
-        }
-
-        .nav-btn:not(.active):hover {
-            background-color: #f1f5f9;
-        }
+        .nav-btn.active { background-color: #6366f1; color: white; }
+        .nav-btn:not(.active):hover { background-color: #f1f5f9; }
 
         .hidden-section { display: none !important; }
 
@@ -83,79 +73,93 @@
         
         .growth-up { color: #10b981; font-weight: bold; }
         .growth-stable { color: #64748b; font-weight: bold; }
+
+        .row-selectable:focus, .row-selectable:hover { 
+            background-color: #f8fafc; 
+            outline: none;
+            box-shadow: inset 4px 0 0 #6366f1;
+        }
+        
+        .tts-indicator {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 8px;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
     <div class="app-wrapper">
-        <!-- Cabeçalho (Header) -->
         <header class="bg-white border-b border-slate-200 p-5 sticky top-0 z-50">
             <div class="max-w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex flex-col">
-                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Painel Estatístico: Diaristas</h1>
+                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight" tabindex="0" onfocus="falar('Painel Estatístico de Diaristas. Utilize a tecla TAB para navegar.')">Painel Estatístico: Diaristas</h1>
                     <p class="text-sm text-slate-500 font-medium">Análise IHC e Acessibilidade • Projeto Integrador I</p>
                 </div>
             </div>
         </header>
 
         <div class="main-container">
-            <!-- Menu Lateral (Sidebar) -->
             <aside class="sidebar p-6 hidden md:block">
                 <nav aria-label="Menu de Navegação Principal">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Módulos</p>
-                    <button onclick="showView('dashboard-view')" id="btn-dash" class="nav-btn active" onmouseover="falar('Menu: Dashboard Geral')">
+                    <button onclick="showView('dashboard-view')" id="btn-dash" class="nav-btn active" onfocus="falar('Menu: Dashboard Geral')">
                         <span>📊</span> Dashboard Geral
                     </button>
-                    <button onclick="showView('relatorios-view')" id="btn-rel" class="nav-btn" onmouseover="falar('Menu: Relatórios Mensais')">
+                    <button onclick="showView('relatorios-view')" id="btn-rel" class="nav-btn" onfocus="falar('Menu: Relatórios Mensais')">
                         <span>📑</span> Relatórios Mensais
                     </button>
-                    <button onclick="showView('mapas-view')" id="btn-map" class="nav-btn" onmouseover="falar('Menu: Análise Profunda')">
+                    <button onclick="showView('mapas-view')" id="btn-map" class="nav-btn" onfocus="falar('Menu: Análise Profunda')">
                         <span>🔍</span> Análise Profunda
                     </button>
                     
                     <hr class="my-6 border-slate-100">
                     
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Suporte e Atualizações</p>
-                    <button onclick="showView('form-cadastro')" id="btn-cad" class="nav-btn" onmouseover="falar('Menu: Receber Atualizações')">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Suporte</p>
+                    <button onclick="showView('form-cadastro')" id="btn-cad" class="nav-btn" onfocus="falar('Menu: Receber Atualizações')">
                         <span>🔔</span> Atualizações
                     </button>
-                    <button onclick="showView('form-feedback')" id="btn-feed" class="nav-btn" onmouseover="falar('Menu: Enviar Feedback')">
+                    <button onclick="showView('form-feedback')" id="btn-feed" class="nav-btn" onfocus="falar('Menu: Enviar Feedback')">
                         <span>💬</span> Feedback
                     </button>
                 </nav>
             </aside>
 
-            <!-- Conteúdo Principal (Main) -->
             <main class="content-main">
                 
-                <!-- 1. DASHBOARD GERAL -->
-                <section id="dashboard-view">
+                <!-- DASHBOARD GERAL -->
+                <section id="dashboard-view" aria-labelledby="dash-title">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <article class="card border-l-4 border-indigo-500" onmouseover="falar('Total no Distrito Federal: Oitenta e cinco mil')">
+                        <article class="card border-l-4 border-indigo-500" tabindex="0" onfocus="falarDadosCard('Total no Distrito Federal', 'Oitenta e cinco mil')">
                             <h2 class="text-[10px] font-black text-slate-400 uppercase mb-2">Total (DF)</h2>
                             <p class="text-3xl font-extrabold text-slate-800">~85.000</p>
+                            <span class="tts-indicator">Navegue para ouvir</span>
                         </article>
-                        <article class="card border-l-4 border-rose-500" onmouseover="falar('Informalidade: Setenta e dois vírgula quatro por cento')">
+                        <article class="card border-l-4 border-rose-500" tabindex="0" onfocus="falarDadosCard('Taxa de Informalidade', 'Setenta e dois vírgula quatro por cento')">
                             <h2 class="text-[10px] font-black text-slate-400 uppercase mb-2">Informalidade</h2>
                             <p class="text-3xl font-extrabold text-slate-800">72.4%</p>
+                            <span class="tts-indicator">Navegue para ouvir</span>
                         </article>
-                        <article class="card border-l-4 border-amber-500" onmouseover="falar('Renda média: Mil quatrocentos e cinquenta reais')">
+                        <article class="card border-l-4 border-amber-500" tabindex="0" onfocus="falarDadosCard('Renda média mensal', 'Mil quatrocentos e cinquenta reais')">
                             <h2 class="text-[10px] font-black text-slate-400 uppercase mb-2">Renda Média</h2>
                             <p class="text-3xl font-extrabold text-slate-800">R$ 1.450</p>
+                            <span class="tts-indicator">Navegue para ouvir</span>
                         </article>
-                        <article class="card border-l-4 border-emerald-500" onmouseover="falar('Jornada média: Três vírgula dois dias')">
+                        <article class="card border-l-4 border-emerald-500" tabindex="0" onfocus="falarDadosCard('Jornada média semanal', 'Três vírgula dois dias')">
                             <h2 class="text-[10px] font-black text-slate-400 uppercase mb-2">Jornada</h2>
                             <p class="text-3xl font-extrabold text-slate-800">3.2 dias</p>
+                            <span class="tts-indicator">Navegue para ouvir</span>
                         </article>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div class="lg:col-span-4 card">
+                        <div class="lg:col-span-4 card" tabindex="0" onfocus="falar('Gráfico de Faixa Etária. O maior grupo está entre trinta e cinco e quarenta e quatro anos, representando trinta e cinco por cento do total.')">
                             <h3 class="font-bold text-slate-700 mb-4">Faixa Etária</h3>
-                            <div class="chart-box"><canvas id="dashAgeChart" aria-label="Gráfico de barras de idade"></canvas></div>
+                            <div class="chart-box"><canvas id="dashAgeChart"></canvas></div>
                         </div>
                         <div class="lg:col-span-8 card">
-                            <h3 class="font-bold text-slate-700 mb-4">Demanda por Região</h3>
+                            <h3 class="font-bold text-slate-700 mb-4" tabindex="0" onfocus="falar('Tabela de Demanda por Região. Use as setas ou TAB para explorar cada localidade.')">Demanda por Região</h3>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left">
                                     <thead>
@@ -166,15 +170,8 @@
                                             <th class="pb-4 px-3 text-right">Crescimento</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="text-slate-600">
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Plano Piloto</td><td class="px-3">Altíssimo</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 220</td><td class="text-right px-3 growth-up">+12%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Águas Claras</td><td class="px-3">Alto</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 180</td><td class="text-right px-3 growth-up">+15%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Taguatinga</td><td class="px-3">Médio</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 140</td><td class="text-right px-3 growth-up">+8%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Ceilândia</td><td class="px-3">Muito Alto</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 120</td><td class="text-right px-3 growth-up">+22%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Samambaia</td><td class="px-3">Alto</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 110</td><td class="text-right px-3 growth-up">+18%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Sobradinho</td><td class="px-3">Médio</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 130</td><td class="text-right px-3 growth-stable">+4%</td></tr>
-                                        <tr class="border-b hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Santa Maria</td><td class="px-3">Médio</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 100</td><td class="text-right px-3 growth-up">+10%</td></tr>
-                                        <tr class="hover:bg-slate-50 transition-colors"><td class="py-4 px-3 font-bold text-slate-800">Planaltina</td><td class="px-3">Médio</td><td class="text-right px-3 text-indigo-600 font-bold">R$ 90</td><td class="text-right px-3 growth-stable">+2%</td></tr>
+                                    <tbody id="tabela-demanda" class="text-slate-600">
+                                        <!-- Gerado via JS -->
                                     </tbody>
                                 </table>
                             </div>
@@ -182,42 +179,33 @@
                     </div>
                 </section>
 
-                <!-- 2. RELATÓRIOS MENSAIS -->
+                <!-- RELATÓRIOS -->
                 <section id="relatorios-view" class="hidden-section">
                     <div class="mb-8">
-                        <h2 class="text-2xl font-extrabold text-slate-800">Evolução de Chamados</h2>
-                        <p class="text-slate-500">Histórico de solicitações ao longo do ano.</p>
+                        <h2 class="text-2xl font-extrabold text-slate-800" tabindex="0" onfocus="falar('Seção de Relatórios Mensais. O gráfico a seguir mostra a evolução de chamados durante o ano.')">Evolução de Chamados</h2>
                     </div>
-                    <div class="card">
+                    <div class="card" tabindex="0" onfocus="falar('O gráfico de evolução indica tendência de alta. Iniciou com noventa e cinco chamados em janeiro e atingiu duzentos e sessenta em dezembro.')">
                         <h3 class="font-bold mb-6">Procura Mensal (2025)</h3>
                         <div class="chart-box" style="height: 350px;">
-                            <canvas id="evolutionChart" aria-label="Gráfico de linha de evolução mensal"></canvas>
+                            <canvas id="evolutionChart"></canvas>
                         </div>
                     </div>
                 </section>
 
-                <!-- 3. ANÁLISE PROFUNDA -->
+                <!-- ANÁLISE PROFUNDA -->
                 <section id="mapas-view" class="hidden-section">
                     <div class="mb-8">
-                        <h2 class="text-2xl font-extrabold text-slate-800">Análise Profunda</h2>
-                        <p class="text-slate-500">Dados demográficos e indicadores de serviço.</p>
+                        <h2 class="text-2xl font-extrabold text-slate-800" tabindex="0" onfocus="falar('Seção de Análise Profunda sobre perfil socioeconômico.')">Análise Profunda</h2>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        <div class="card">
+                        <div class="card" tabindex="0" onfocus="falar('Gráfico de Formalidade. A grande maioria, setenta e dois por cento, ainda trabalha na informalidade.')">
                             <h3 class="font-bold text-slate-700 mb-4">Situação de Formalidade</h3>
-                            <div class="chart-box"><canvas id="formalidadeChart" aria-label="Gráfico de informalidade"></canvas></div>
+                            <div class="chart-box"><canvas id="formalidadeChart"></canvas></div>
                         </div>
-                        <div class="card">
+                        <div class="card" tabindex="0" onfocus="falar('Gráfico de Escolaridade. Quarenta por cento das profissionais possuem o ensino fundamental incompleto.')">
                             <h3 class="font-bold text-slate-700 mb-4">Escolaridade</h3>
-                            <div class="chart-box"><canvas id="escolaridadeChart" aria-label="Gráfico de escolaridade"></canvas></div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="font-bold text-slate-700 mb-4">Atributos do Serviço (Média de Feedback)</h3>
-                        <div class="chart-box" style="height: 400px;">
-                            <canvas id="radarChart" aria-label="Gráfico de radar comparando atributos"></canvas>
+                            <div class="chart-box"><canvas id="escolaridadeChart"></canvas></div>
                         </div>
                     </div>
                 </section>
@@ -225,32 +213,30 @@
                 <!-- FORMULÁRIOS -->
                 <section id="form-cadastro" class="hidden-section max-w-xl mx-auto">
                     <div class="card">
-                        <h2 class="text-xl font-bold mb-6">Receber Atualizações</h2>
-                        <p class="text-sm text-slate-500 mb-6">Cadastre-se para receber os relatórios trimestrais diretamente no seu e-mail.</p>
+                        <h2 class="text-xl font-bold mb-6" tabindex="0" onfocus="falar('Formulário para receber atualizações. Informe seu nome e e-mail abaixo.')">Receber Atualizações</h2>
                         <form onsubmit="finalizarAcao(event, 'Assinado com sucesso!')" class="space-y-4">
                             <div>
                                 <label for="c-nome" class="block text-xs font-bold uppercase text-slate-400 mb-1">Nome Completo</label>
-                                <input type="text" id="c-nome" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <input type="text" id="c-nome" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" onfocus="falar('Campo Nome')">
                             </div>
                             <div>
                                 <label for="c-email" class="block text-xs font-bold uppercase text-slate-400 mb-1">E-mail</label>
-                                <input type="email" id="c-email" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <input type="email" id="c-email" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" onfocus="falar('Campo E-mail')">
                             </div>
-                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700 transition">Inscrever-se</button>
+                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold" onfocus="falar('Botão Inscrever-se')">Inscrever-se</button>
                         </form>
                     </div>
                 </section>
 
                 <section id="form-feedback" class="hidden-section max-w-xl mx-auto">
                     <div class="card">
-                        <h2 class="text-xl font-bold mb-6">Enviar Sugestões</h2>
-                        <p class="text-sm text-slate-500 mb-6">Sua opinião é fundamental para melhorarmos a acessibilidade deste painel.</p>
+                        <h2 class="text-xl font-bold mb-6" tabindex="0" onfocus="falar('Formulário de Feedback. Escreva sua sugestão no campo abaixo.')">Enviar Sugestões</h2>
                         <form onsubmit="finalizarAcao(event, 'Obrigado pelo seu feedback!')" class="space-y-4">
                             <div>
-                                <label for="f-msg" class="block text-xs font-bold uppercase text-slate-400 mb-1">Feedback ou Sugestão</label>
-                                <textarea id="f-msg" rows="4" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Como podemos melhorar?"></textarea>
+                                <label for="f-msg" class="block text-xs font-bold uppercase text-slate-400 mb-1">Feedback</label>
+                                <textarea id="f-msg" rows="4" required class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Sugestões..." onfocus="falar('Campo de texto para feedback')"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700 transition">Enviar Mensagem</button>
+                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold" onfocus="falar('Botão Enviar Feedback')">Enviar</button>
                         </form>
                     </div>
                 </section>
@@ -258,32 +244,60 @@
             </main>
         </div>
 
-        <!-- Rodapé -->
         <footer class="bg-white border-t p-8">
             <div class="max-w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div>
+                <div tabindex="0" onfocus="falar('Rodapé: Projeto Integrador um de dois mil e vinte e seis. Desenvolvido por João Victor Rios Brito e Nascimento.')">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Projeto Integrador I • 2026</p>
-                    <p class="text-sm font-bold text-slate-800">Desenvolvido por João Victor Rios Brito e Nascimento</p>
-                </div>
-                <div class="flex items-center gap-6">
-                    <a href="https://github.com/Jvriosbrito" target="_blank" class="flex items-center gap-2 text-indigo-600 font-bold text-sm hover:underline" aria-label="Perfil de Jvriosbrito no GitHub">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
-                        github.com/Jvriosbrito
-                    </a>
+                    <p class="text-sm font-bold text-slate-800">João Victor Rios Brito e Nascimento</p>
                 </div>
             </div>
         </footer>
     </div>
 
     <script>
+        // Sistema de Voz Automatizado
         function falar(texto) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(texto);
                 u.lang = 'pt-BR';
-                u.rate = 1.1;
+                u.rate = 1.05; // Levemente mais rápido para fluidez
                 window.speechSynthesis.speak(u);
             }
+        }
+
+        function falarDadosCard(titulo, valor) {
+            falar(`${titulo}. Valor de ${valor}`);
+        }
+
+        function falarLinhaTabela(regiao, demanda, valor, crescimento) {
+            falar(`Região ${regiao}. Demanda ${demanda}. Diária de ${valor} reais. Crescimento de ${crescimento}.`);
+        }
+
+        // Dados da Tabela
+        const regioes = [
+            { r: "Plano Piloto", d: "Altíssimo", v: "220", c: "+12%" },
+            { r: "Águas Claras", d: "Alto", v: "180", c: "+15%" },
+            { r: "Taguatinga", d: "Médio", v: "140", c: "+8%" },
+            { r: "Ceilândia", d: "Muito Alto", v: "120", c: "+22%" },
+            { r: "Samambaia", d: "Alto", v: "110", c: "+18%" },
+            { r: "Sobradinho", d: "Médio", v: "130", c: "+4%" },
+            { r: "Santa Maria", d: "Médio", v: "100", c: "+10%" },
+            { r: "Planaltina", d: "Médio", v: "90", c: "+2%" }
+        ];
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('tabela-demanda');
+            tbody.innerHTML = regioes.map(item => `
+                <tr class="border-b row-selectable transition-colors" 
+                    tabindex="0"
+                    onfocus="falarLinhaTabela('${item.r}', '${item.d}', '${item.v}', '${item.c}')">
+                    <td class="py-4 px-3 font-bold text-slate-800">${item.r}</td>
+                    <td class="px-3">${item.d}</td>
+                    <td class="text-right px-3 text-indigo-600 font-bold">R$ ${item.v}</td>
+                    <td class="text-right px-3 ${item.c.includes('+') ? 'growth-up' : 'growth-stable'}">${item.c}</td>
+                </tr>
+            `).join('');
         }
 
         function showView(id) {
@@ -292,43 +306,53 @@
             document.getElementById(id).classList.remove('hidden-section');
             
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            if(id === 'dashboard-view') document.getElementById('btn-dash').classList.add('active');
-            if(id === 'relatorios-view') document.getElementById('btn-rel').classList.add('active');
-            if(id === 'mapas-view') document.getElementById('btn-map').classList.add('active');
-            if(id === 'form-cadastro') document.getElementById('btn-cad').classList.add('active');
-            if(id === 'form-feedback') document.getElementById('btn-feed').classList.add('active');
-
+            
+            // Ativa o botão correto e aciona o foco para leitura
+            const btnMap = {
+                'dashboard-view': 'btn-dash',
+                'relatorios-view': 'btn-rel',
+                'mapas-view': 'btn-map',
+                'form-cadastro': 'btn-cad',
+                'form-feedback': 'btn-feed'
+            };
+            const activeBtn = document.getElementById(btnMap[id]);
+            activeBtn.classList.add('active');
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function finalizarAcao(e, msg) {
             e.preventDefault();
-            alert(msg);
-            showView('dashboard-view');
+            falar(msg);
+            setTimeout(() => {
+                alert(msg);
+                showView('dashboard-view');
+            }, 500);
         }
 
         window.onload = function() {
-            // Dashboard: Idade
+            renderizarTabela();
+            falar("Bem-vindo ao Painel Estatístico. O dashboard inicial está carregado.");
+
+            // Gráficos
             new Chart(document.getElementById('dashAgeChart'), {
                 type: 'bar',
                 data: {
                     labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
-                    datasets: [{ label: '% Participação', data: [8, 22, 35, 25, 10], backgroundColor: '#6366f1', borderRadius: 6 }]
+                    datasets: [{ label: '% Participação', data: [8, 22, 35, 25, 10], backgroundColor: '#6366f1' }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // Relatórios: Evolução
             new Chart(document.getElementById('evolutionChart'), {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    datasets: [{ label: 'Solicitações', data: [95, 88, 115, 135, 128, 150, 142, 138, 165, 190, 210, 260], borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.05)', fill: true, tension: 0.4 }]
+                    datasets: [{ label: 'Solicitações', data: [95, 88, 115, 135, 128, 150, 142, 138, 165, 190, 210, 260], borderColor: '#6366f1', fill: false, tension: 0.3 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // Formalidade
             new Chart(document.getElementById('formalidadeChart'), {
                 type: 'doughnut',
                 data: {
@@ -338,7 +362,6 @@
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // Escolaridade
             new Chart(document.getElementById('escolaridadeChart'), {
                 type: 'pie',
                 data: {
@@ -346,32 +369,6 @@
                     datasets: [{ data: [40, 30, 25, 5], backgroundColor: ['#334155', '#475569', '#94a3b8', '#cbd5e1'] }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            // Radar Chart
-            new Chart(document.getElementById('radarChart'), {
-                type: 'radar',
-                data: {
-                    labels: ['Preço', 'Qualidade', 'Rapidez', 'Confiança', 'Disponibilidade'],
-                    datasets: [{
-                        label: 'Índice de Satisfação',
-                        data: [75, 90, 85, 95, 70],
-                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                        borderColor: '#6366f1',
-                        pointBackgroundColor: '#6366f1'
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { display: true },
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
-                    }
-                }
             });
         };
     </script>
