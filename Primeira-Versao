@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard IHC - Acessibilidade com Áudio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; cursor: crosshair; }
+        .chart-container { position: relative; height: 280px; width: 100%; }
+        .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: all 0.3s; border: 2px solid transparent; }
+        .card:hover { border-color: #6366f1; transform: translateY(-2px); }
+        .hidden-section { display: none !important; }
+        #mouse-tracker {
+            position: fixed; pointer-events: none; background: rgba(0, 0, 0, 0.8);
+            color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; z-index: 9999;
+        }
+        :focus { outline: 4px solid #6366f1; outline-offset: 4px; }
+    </style>
+</head>
+<body onmousemove="updateMouseTracker(event)">
+
+    <div id="mouse-tracker">X: 0, Y: 0</div>
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <div id="dashboard-view">
+            <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4" role="banner">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800" onmouseover="falar('Título: Painel Estatístico de Diaristas no Distrito Federal')">Painel Estatístico: Diaristas</h1>
+                    <p class="text-slate-500">IHC e Acessibilidade (eMAG)</p>
+                </div>
+                <nav aria-label="Menu">
+                    <button onclick="showForm()" onmouseover="falar('Botão: Solicitar Relatório Completo')" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700">
+                        Solicitar Relatório
+                    </button>
+                </nav>
+            </header>
+
+            <main>
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <article class="card border-l-4 border-indigo-500" onmouseover="falar('Total estimado: 85 mil profissionais')">
+                        <h3 class="text-xs font-medium text-slate-500 uppercase">Total Estimado</h3>
+                        <p class="text-2xl font-bold">~85.000</p>
+                    </article>
+                    <article class="card border-l-4 border-amber-500" onmouseover="falar('Informalidade: 72 vírgula 4 por cento')">
+                        <h3 class="text-xs font-medium text-slate-500 uppercase">Informalidade</h3>
+                        <p class="text-2xl font-bold">72.4%</p>
+                    </article>
+                    <article class="card border-l-4 border-emerald-500" onmouseover="falar('Rendimento médio: 1450 reais')">
+                        <h3 class="text-xs font-medium text-slate-500 uppercase">Rendimento Médio</h3>
+                        <p class="text-2xl font-bold">R$ 1.450</p>
+                    </article>
+                    <article class="card border-l-4 border-rose-500" onmouseover="falar('Jornada média: 3 vírgula 2 dias por semana')">
+                        <h3 class="text-xs font-medium text-slate-500 uppercase">Jornada Média</h3>
+                        <p class="text-2xl font-bold">3.2 dias/sem</p>
+                    </article>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <section class="card" onmouseover="falar('Gráfico de barras: Distribuição por Faixa Etária')">
+                        <h2 class="text-lg font-bold mb-4">Faixa Etária</h2>
+                        <div class="chart-container"><canvas id="ageChart"></canvas></div>
+                    </section>
+                    <section class="card" onmouseover="falar('Gráfico de rosca: Formalidade no Distrito Federal')">
+                        <h2 class="text-lg font-bold mb-4">Formalidade no DF</h2>
+                        <div class="chart-container"><canvas id="informalChart"></canvas></div>
+                    </section>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <section class="card lg:col-span-1" onmouseover="falar('Gráfico de pizza: Nível de Escolaridade')">
+                        <h2 class="text-lg font-bold mb-4">Escolaridade</h2>
+                        <div class="chart-container" style="height: 250px;"><canvas id="eduChart"></canvas></div>
+                    </section>
+
+                    <section class="card lg:col-span-2" onmouseover="falar('Tabela: Demanda por Região Administrativa')">
+                        <h2 class="text-lg font-bold mb-4">Demanda por Região</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="text-slate-400 text-sm border-b">
+                                        <th scope="col" class="pb-3">Região</th>
+                                        <th scope="col" class="pb-3">Valor Médio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b" onmouseover="falar('Linha: Plano Piloto, valor médio 220 reais')">
+                                        <th scope="row" class="py-3">Plano Piloto</th><td class="font-bold">R$ 220,00</td>
+                                    </tr>
+                                    <tr class="border-b" onmouseover="falar('Linha: Águas Claras, valor médio 180 reais')">
+                                        <th scope="row" class="py-3">Águas Claras</th><td class="font-bold">R$ 180,00</td>
+                                    </tr>
+                                    <tr class="border-b" onmouseover="falar('Linha: Taguatinga e Ceilândia, valor médio 140 reais')">
+                                        <th scope="row" class="py-3">Taguatinga / Ceilândia</th><td class="font-bold">R$ 140,00</td>
+                                    </tr>
+                                    <tr onmouseover="falar('Linha: Lago Sul e Norte, valor médio 250 reais')">
+                                        <th scope="row" class="py-3">Lago Sul / Norte</th><td class="font-bold">R$ 250,00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div id="form-view" class="hidden-section flex items-center justify-center min-h-[70vh]">
+            <main class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6" onmouseover="falar('Página de Solicitação de Relatório')">Solicitar Relatório</h2>
+                <form onsubmit="finalizar(event)" class="space-y-4">
+                    <div>
+                        <label for="id-nome" class="block text-sm font-semibold text-slate-700 mb-1">Nome Completo</label>
+                        <input type="text" id="id-nome" required class="w-full border p-2 rounded-lg" 
+                               onfocus="falar('Campo nome: Digite seu nome completo')">
+                    </div>
+                    <div>
+                        <label for="id-email" class="block text-sm font-semibold text-slate-700 mb-1">E-mail</label>
+                        <input type="email" id="id-email" required class="w-full border p-2 rounded-lg"
+                               onfocus="falar('Campo e-mail: Digite seu endereço institucional')">
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="submit" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg font-bold" onmouseover="falar('Botão: Enviar solicitação')">Enviar</button>
+                        <button type="button" onclick="showDashboard()" class="flex-1 bg-slate-100 py-2 rounded-lg font-bold" onmouseover="falar('Botão: Voltar para o painel principal')">Voltar</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <footer class="mt-12 py-6 text-center text-slate-400 text-sm border-t">
+            <p>© 2026 - Projeto IHC - João Victor Rios Brito e Nascimento</p>
+        </footer>
+    </div>
+
+    <script>
+        // FUNÇÃO DE VOZ (Web Speech API)
+        function falar(texto) {
+            // Cancela falas anteriores para não encavalar
+            window.speechSynthesis.cancel();
+            const enunciado = new SpeechSynthesisUtterance(texto);
+            enunciado.lang = 'pt-BR';
+            enunciado.rate = 1.2; // Velocidade da voz
+            window.speechSynthesis.speak(enunciado);
+        }
+
+        // Rastreador de Mouse
+        function updateMouseTracker(e) {
+            const tracker = document.getElementById('mouse-tracker');
+            tracker.style.left = (e.clientX + 15) + 'px';
+            tracker.style.top = (e.clientY + 15) + 'px';
+            tracker.innerText = `X: ${e.clientX}, Y: ${e.clientY}`;
+        }
+
+        // Navegação Sonora
+        function showForm() {
+            document.getElementById('dashboard-view').classList.add('hidden-section');
+            document.getElementById('form-view').classList.remove('hidden-section');
+            falar("Página de solicitação carregada. Por favor, preencha seu nome e e-mail nos campos abaixo.");
+            window.scrollTo(0,0);
+        }
+
+        function showDashboard() {
+            document.getElementById('form-view').classList.add('hidden-section');
+            document.getElementById('dashboard-view').classList.remove('hidden-section');
+            falar("Voltando para o painel principal de estatísticas.");
+            window.scrollTo(0,0);
+        }
+
+        function finalizar(e) {
+            e.preventDefault();
+            falar("Sucesso! Sua solicitação foi enviada. Retornando ao painel.");
+            alert("Solicitação enviada!");
+            showDashboard();
+        }
+
+        window.onload = function() {
+            // Inicialização dos Gráficos (Mantidos todos os 3)
+            new Chart(document.getElementById('ageChart'), { type: 'bar', data: { labels: ['18-24', '25-34', '35-44', '45-54', '55+'], datasets: [{ label: '%', data: [8, 22, 35, 25, 10], backgroundColor: '#6366f1' }] }, options: { responsive: true, maintainAspectRatio: false } });
+            new Chart(document.getElementById('informalChart'), { type: 'doughnut', data: { labels: ['Informal', 'CLT', 'MEI'], datasets: [{ data: [72.4, 18.6, 9.0], backgroundColor: ['#f43f5e', '#10b981', '#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+            new Chart(document.getElementById('eduChart'), { type: 'pie', data: { labels: ['Fund. Incomp.', 'Fund. Comp.', 'Médio', 'Superior'], datasets: [{ data: [45, 25, 25, 5], backgroundColor: ['#94a3b8', '#64748b', '#475569', '#1e293b'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+        };
+    </script>
+</body>
+</html>
