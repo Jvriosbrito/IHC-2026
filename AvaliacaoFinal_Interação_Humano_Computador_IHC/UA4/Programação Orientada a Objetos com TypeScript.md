@@ -68,18 +68,18 @@ class Venda {
 
 // c) Criação de instâncias, inserção na Venda e execução da soma
 const produto1 = new Produto(
-    "Monitor Gamer Samsung Odyssey G40",
-    "Monitor 27 polegadas, 240Hz, painel IPS",
-    1850.00,
-    "Samsung",
+    "Chuteira Nike Mercurial Vapor 15 Academy Futsal",
+    "Chuteira para futsal, futebol de salao",
+    330.00,
+    "Nike",
     true
 );
 
 const produto2 = new Produto(
-    "Camisa Oficial Cruzeiro",
-    "Camisa titular azul, modelo torcedor",
-    350.00,
-    "Adidas",
+    "StardewVale",
+    "Jogo base",
+    35.00,
+    "Stean",
     true
 );
 
