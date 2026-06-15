@@ -26,8 +26,8 @@ Realizou-se a análise de um painel de controle de gerenciamento de estoque que 
 
 ### Arquivos Entregues
 
-- UA1_Popup/index.html
-- UA1_Popup/style.css 
+- UA1_interface.html
+- UA1_ua1.txt
 
 ---
 
