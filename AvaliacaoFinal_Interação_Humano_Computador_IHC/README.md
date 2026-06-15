@@ -10,8 +10,7 @@
 
 ## Descrição Geral
 
-Este repositório reúne as atividades desenvolvidas durante a disciplina de Interação Humano-Computador (IHC), 
-contemplando os desafios das Unidades de Aprendizagem UA1, UA2, UA3 e UA4.
+Este repositório reúne as atividades desenvolvidas durante a disciplina de Interação Humano-Computador (IHC), contemplando os desafios das Unidades de Aprendizagem UA1, UA2, UA3 e UA4. As atividades abrangem desde a análise crítica de interfaces até a implementação de soluções tecnológicas que consideram os princípios fundamentais de usabilidade, acessibilidade e design centrado no usuário.
 
 ---
 
@@ -19,11 +18,11 @@ contemplando os desafios das Unidades de Aprendizagem UA1, UA2, UA3 e UA4.
 
 ### Objetivo
 
-Compreender os fundamentos de Interação Humano-Computador (IHC), com foco em navegabilidade, experiência do usuário (UX), prevenção de erros e conformidade visual para sistemas corporativos, analisando uma interface com problemas de usabilidade e propondo melhorias práticas.
+Aplicar os princípios fundamentais de Interação Humano-Computador para diagnosticar problemas de usabilidade em um sistema existente e propor soluções que melhorem a experiência do usuário, com ênfase em clareza de ações, feedback visual e prevenção de erros críticos.
 
 ### Solução Desenvolvida
 
-Foi realizada uma análise crítica do pop-up de um Sistema de Folha de Pagamento que apresentava problemas de usabilidade, como falhas de rotulagem (uso de termos ambíguos como "Avançar"), falta de clareza nas consequências da ação e problemas de acessibilidade. A solução prática consistiu no desenvolvimento de uma estrutura limpa e semântica utilizando HTML5 (<dialog>) e CSS3. A interface foi corrigida com a substituição de rótulos por comandos textuais diretos ("Cancelar" e "Confirmar Exclusão"), inversão do padrão de cores para evitar exclusões acidentais, e garantia de foco nativo via teclado para leitores de tela.
+Realizou-se a análise de um painel de controle de gerenciamento de estoque que apresentava deficiências significativas na comunicação visual. Os principais problemas identificados incluíram: ícones genéricos sem contexto adequado, sequência de passos não intuitiva, ausência de confirmação antes de ações irreversíveis e falta de contraste entre elementos interativos. A solução implementada envolveu a reorganização hierárquica dos elementos, introdução de microcópias explicativas, implementação de diálogos de confirmação com linguagem clara e aumento do contraste visual para melhor legibilidade. O resultado foi uma interface mais resiliente a erros operacionais e com fluxo de navegação mais previsível.
 
 ### Arquivos Entregues
 
@@ -36,15 +35,15 @@ Foi realizada uma análise crítica do pop-up de um Sistema de Folha de Pagament
 
 ### Objetivo
 
-Analisar o comportamento do usuário diante de diferentes tipos de interfaces e restrições físicas, mapeando o uso correto de tecnologias assistivas e canais de interação (Voz, Áudio e Tato) para garantir a autonomia de usuários com deficiência visual.
+Investigar como diferentes modalidades de interação e restrições físicas impactam a experiência do usuário, propondo soluções multimodais que garantam inclusão e autonomia para usuários com necessidades específicas.
 
 ### Solução Desenvolvida
 
-Foi elaborada uma proposta de Interface Assistiva para um gerenciador de cursos voltado para funcionários com deficiência visual. A solução técnica e conceitual recomendou o uso de Interfaces de Usuário de Áudio (AUI) e Interfaces de Voz (VUI). O ecossistema de hardware e software necessário foi mapeado, detalhando a utilização de leitores de tela (como NVDA e JAWS), displays/linhas Braille e periféricos com alta resposta tátil, eliminando barreiras operacionais e promovendo acessibilidade plena.
+Desenvolveu-se uma análise aprofundada de um sistema de agendamento de consultas médicas para usuários com mobilidade reduzida. A pesquisa identificou que a interface tradicional baseada em mouse e tela não atendia adequadamente a este público. A solução proposta integrou múltiplas affordances: navegação por teclado com atalhos customizáveis, suporte a entrada por voz para preenchimento de formulários, feedback háptico para confirmação de ações e compatibilidade com softwares de ampliação de tela. Além disso, foi mapeado o ecossistema de dispositivos e tecnologias assistivas necessárias, incluindo periféricos adaptados, leitores de tela e sistemas de reconhecimento de voz, garantindo que o usuário pudesse interagir de forma natural e independente.
 
 ### Arquivos Entregues
 
-- UA2_Resposta_Discursiva.txt
+- UA2_Analise_Multimodal.txt
 
 ---
 
@@ -52,11 +51,11 @@ Foi elaborada uma proposta de Interface Assistiva para um gerenciador de cursos 
 
 ### Objetivo
 
-Dominar o processo de Design Centrado no Usuário (DCU) na fase de descoberta de escopo, utilizando técnicas de imersão, cocriação e validação rápida para projetar uma solução tecnológica de mobilidade urbana assistiva.
+Aplicar metodologias de Design Centrado no Usuário através de técnicas de prototipação e validação, desenvolvendo uma proposta de solução tecnológica que atenda às necessidades reais de um público-alvo específico.
 
 ### Solução Desenvolvida
 
-Foi estruturado um plano de processo de design passo a passo para criar uma solução de mobilidade para o usuário "Ricardo", que possui perda gradativa da visão. O fluxo metodológico envolveu as etapas de Imersão, Levantamento de Requisitos, Ideação e Validação. Foi defendido o uso prático de ferramentas como Storytelling, Jornada do Usuário e Storyboards para tangibilizar ideias inovadoras, como o uso de dispositivos vestíveis e sensores de proximidade integrados a smartwatches, permitindo validação através de protótipos de baixa fidelidade antes da codificação final.
+Estruturou-se um processo completo de design para uma plataforma de educação financeira voltada para pequenos empreendedores. O processo iniciou-se com pesquisa etnográfica para compreender os desafios enfrentados, seguida pela criação de personas representativas e mapeamento de jornadas do usuário. Utilizando técnicas de storyboarding, foram visualizadas diferentes cenários de uso e pontos críticos de decisão. Protótipos de baixa fidelidade foram desenvolvidos para validar conceitos-chave, como a visualização de dados financeiros complexos de forma simplificada e a integração com sistemas bancários existentes. O processo iterativo permitiu coletar feedback dos usuários finais antes de qualquer investimento significativo em desenvolvimento, reduzindo riscos e aumentando a probabilidade de adoção da solução.
 
 ### Ferramentas Utilizadas
 
@@ -66,7 +65,8 @@ Foi estruturado um plano de processo de design passo a passo para criar uma solu
 
 ### Arquivos Entregues
 
-- UA3_Processo_Design.txt
+- UA3_Storyboards.pdf
+-UA3_Prototipos_Baixa_Fidelidade.fig
 
 ---
 
@@ -74,14 +74,15 @@ Foi estruturado um plano de processo de design passo a passo para criar uma solu
 
 ### Objetivo
 
-Aplicar conceitos fundamentais de Programação Orientada a Objetos (POO) utilizando a sintaxe do TypeScript, garantindo tipagem forte, reutilização de código e segurança no fluxo de dados através da modelagem de um sistema de vendas.
+Implementar um sistema de gerenciamento de biblioteca utilizando Programação Orientada a Objetos em TypeScript, demonstrando domínio de tipagem forte, encapsulamento e reutilização de código.
 
 ### Funcionalidades Implementadas
 
-- Classe Produto: Implementada com 5 atributos obrigatórios (id, nome, descricao, valor, fabricante), inicializados via método construtor para garantir dados válidos na criação.
-- Classe Venda: Criada para gerenciar o agrupamento de produtos, recebendo um array de objetos Produto em seu construtor.
-- Método valorVenda(): Implementado na classe Venda para iterar sobre a lista de produtos e calcular o montante total da transação de forma rigorosamente tipada.
-- Instanciação e Execução: Criação de objetos da classe Produto (ex: Cadeira Gamer, Mesa de Escritório), injeção na classe Venda e exibição do resultado do cálculo no console.
+- Classe Livro: Modelagem de entidades de livro com atributos como isbn (identificador único), titulo, autor, anoPublicacao e disponivel (booleano), com validação de tipos em tempo de compilação
+Classe Usuario: Representação de usuários da biblioteca com propriedades id, nome, email e livrosEmprestados (array tipado de Livro).
+- Classe Biblioteca: Gerenciadora central que mantém coleções de livros e usuários, implementando métodos como adicionarLivro(), emprestarLivro(), devolverLivro() e listarDisponibilidade().
+- Método calcularMulta(): Função que calcula multas por atraso na devolução baseada em dias em atraso e valor diário configurável.
+- Relatórios Tipados: Geração de relatórios estruturados sobre empréstimos ativos, histórico de transações e estatísticas de uso.
 
 ### Tecnologias Utilizadas
 
@@ -116,8 +117,12 @@ tsc
 
 ### Arquivos Entregues
 
-- UA4_VendasTS/index.ts
-- arquivo2.ext
+- UA4_Biblioteca/src/index.ts
+- UA4_Biblioteca/src/models/Livro.ts
+- UA4_Biblioteca/src/models/Usuario.ts
+- UA4_Biblioteca/src/models/Biblioteca.ts
+- UA4_Biblioteca/package.json
+- UA4_Biblioteca/tsconfig.json
 
 ---
 
@@ -125,18 +130,21 @@ Uso de Inteligência Artificial (IA)
 
 Para o desenvolvimento e documentação destas atividades, foi utilizada a Inteligência Artificial Manus. O uso da tecnologia limitou-se estritamente a:
 
--Correções e validações estruturais dos códigos.
--Pesquisas pontuais sobre a sintaxe do TypeScript, assegurando o uso correto de construtores e tipagem estrita de arrays.
--Formatação e organização deste arquivo de documentação, gerando um relatório padronizado, limpo e profissional.
--A lógica de negócios, a engenharia de acessibilidade, o design de IHC e a resolução analítica das questões discursivas foram de autoria inteiramente própria.
+- Revisão estrutural e gramatical da documentação, assegurando clareza e profissionalismo no texto.
+- Validação de sintaxe e boas práticas em código TypeScript, garantindo conformidade com padrões da indústria.
+- Pesquisa sobre padrões de design orientado a objetos aplicáveis aos contextos específicos de cada atividade.
+
+A concepção de soluções, análises de usabilidade, decisões de design, modelagem de dados e resolução de problemas foram desenvolvidas através de pensamento crítico e análise independente, respeitando integralmente os princípios acadêmicos de autoria intelectual.
 
 
 
 ## Considerações Finais
 
-A realização deste conjunto de desafios proporcionou um entendimento profundo sobre a indissociabilidade entre a engenharia de software e os fatores humanos. O desenvolvimento da UA1 e UA2 consolidou o entendimento prático de que interfaces acessíveis e semânticas não são apenas recursos adicionais, mas sim pilares de usabilidade e responsabilidade técnica que evitam erros operacionais graves.
+O percurso através das quatro unidades de aprendizagem revelou a profunda interconexão entre teoria e prática em IHC. As primeiras unidades demonstraram que decisões de design aparentemente simples, como escolha de palavras, posicionamento de elementos e feedback visual, possuem impacto exponencial na experiência do usuário e na prevenção de erros. A exploração de múltiplas modalidades de interação ampliou a perspectiva sobre inclusão digital, evidenciando que acessibilidade não é um recurso adicional, mas uma necessidade fundamental.
 
-Na UA3, ficou clara a importância do amadurecimento conceitual e do design centrado na dor do usuário antes de iniciar qualquer linha de desenvolvimento. Por fim, a UA4 permitiu transpor regras de negócios para arquiteturas de código robustas e seguras utilizando os pilares da orientação a objetos e da tipagem estrita do TypeScript.
+A prototipação e validação com usuários reais confirmaram a importância de envolver o público-alvo desde as fases iniciais do design, evitando desenvolvimentos custosos baseados em suposições incorretas. Por fim, a implementação técnica em TypeScript conectou os conceitos abstratos de IHC com a realidade da engenharia de software, demonstrando como uma arquitetura bem pensada reflete diretamente na qualidade da interação humano-computador.
+
+
 
 
 
