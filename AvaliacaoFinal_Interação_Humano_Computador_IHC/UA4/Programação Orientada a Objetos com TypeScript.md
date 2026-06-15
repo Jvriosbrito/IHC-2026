@@ -118,5 +118,4 @@ console.log(`O valor total da venda é: R$ ${valorTotal.toFixed(2)}`);
 
 ## Arquivos Entregues
 - `UA4_VendasTS/index.ts` (Código fonte)
-- `UA4_VendasTS/index.js` (Código compilado)
 
