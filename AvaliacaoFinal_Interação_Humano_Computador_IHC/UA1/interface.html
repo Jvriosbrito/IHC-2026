@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Gerenciamento de Estoque</title>
+  <style>
+    /* Estilos Gerais */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Container Principal */
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    /* Cabeçalho */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 20px;
+    }
+
+    .header h1 {
+      color: #1f2937;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    /* Tabela de Produtos */
+    .tabela-container {
+      margin: 30px 0;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    thead {
+      background-color: #667eea;
+      color: white;
+    }
+
+    th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid #e5e7eb;
+    }
+
+    td {
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      color: #374151;
+    }
+
+    tbody tr:hover {
+      background-color: #f9fafb;
+      transition: background-color 0.2s ease;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f3f4f6;
+    }
+
+    /* Badges de Status */
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .badge-estoque {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge-falta {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Botões de Ação */
+    .acoes-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-editar {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-editar:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-deletar {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .btn-deletar:hover {
+      background-color: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid #fbbf24;
+      outline-offset: 2px;
+    }
+
+    /* Modal de Confirmação */
+    .modal-estoque {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 450px;
+      padding: 32px;
+      width: 90%;
+    }
+
+    .modal-estoque::backdrop {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #fbbf24;
+      padding-bottom: 16px;
+    }
+
+    .modal-icon {
+      font-size: 2rem;
+      color: #f59e0b;
+    }
+
+    .modal-titulo {
+      color: #1f2937;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .modal-texto {
+      color: #4b5563;
+      font-size: 1rem;
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+
+    .modal-destaque {
+      background-color: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      margin: 16px 0;
+      border-radius: 4px;
+      color: #92400e;
+      font-weight: 500;
+    }
+
+    /* Container dos Botões do Modal */
+    .modal-acoes {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .btn-modal {
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+
+    .btn-cancelar {
+      background-color: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .btn-cancelar:hover {
+      background-color: #d1d5db;
+    }
+
+    .btn-confirmar-delete {
+      background-color: #dc2626;
+      color: white;
+    }
+
+    .btn-confirmar-delete:hover {
+      background-color: #b91c1c;
+    }
+
+    .btn-modal:focus-visible {
+      outline: 3px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+
+      .modal-acoes {
+        flex-direction: column;
+      }
+
+      .btn-modal {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>📦 Painel de Estoque</h1>
+      <p>Gerenciamento centralizado de produtos e inventário</p>
+    </div>
+
+    <div class="tabela-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Teclado Mecânico RGB</td>
+            <td>45</td>
+            <td>R$ 350,00</td>
+            <td><span class="badge badge-estoque">Em Estoque</span></td>
+            <td>
+              <div class="acoes-container">
+                <button class="btn btn-editar">Editar</button>
+                <button class="btn btn-deletar" onclick="abrirModalDelecao('Teclado Mecânico RGB')">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Monitor 27" 144Hz</td>
+            <td>12</td>
+            <td>R$ 1.200,00</td>
+            <td><span class="badge badge-estoque">Em Estoque</span></td>
+            <td>
+              <div class="acoes-container">
+                <button class="btn btn-editar">Editar</button>
+                <button class="btn btn-deletar" onclick="abrirModalDelecao('Monitor 27\" 144Hz')">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Mouse Sem Fio</td>
+            <td>2</td>
+            <td>R$ 85,00</td>
+            <td><span class="badge badge-falta">Baixo Estoque</span></td>
+            <td>
+              <div class="acoes-container">
+                <button class="btn btn-editar">Editar</button>
+                <button class="btn btn-deletar" onclick="abrirModalDelecao('Mouse Sem Fio')">Deletar</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Webcam Full HD</td>
+            <td>0</td>
+            <td>R$ 250,00</td>
+            <td><span class="badge badge-falta">Fora de Estoque</span></td>
+            <td>
+              <div class="acoes-container">
+                <button class="btn btn-editar">Editar</button>
+                <button class="btn btn-deletar" onclick="abrirModalDelecao('Webcam Full HD')">Deletar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <dialog id="modalDelecao" class="modal-estoque" aria-labelledby="modal-titulo-delecao">
+    
+    <div class="modal-header">
+      <span class="modal-icon">⚠️</span>
+      <h2 id="modal-titulo-delecao" class="modal-titulo">Confirmar Exclusão</h2>
+    </div>
+    
+    <p class="modal-texto">
+      Você está prestes a remover o seguinte produto do sistema:
+    </p>
+
+    <div class="modal-destaque" id="produto-destaque">
+      <strong>Produto: </strong><span id="nome-produto">-</span>
+    </div>
+
+    <p class="modal-texto">
+      <strong>Atenção:</strong> Esta ação é <strong>irreversível</strong> e removerá permanentemente o produto do banco de dados. Todos os registros históricos de vendas permanecerão intactos.
+    </p>
+
+    <form method="dialog" class="modal-acoes">
+      <button type="button" value="cancel" class="btn-modal btn-cancelar" onclick="fecharModal()">Cancelar</button>
+      <button type="button" value="confirm" class="btn-modal btn-confirmar-delete" onclick="confirmarDelecao()">Confirmar Exclusão</button>
+    </form>
+
+  </dialog>
+
+  <script>
+    function abrirModalDelecao(nomeProduto) {
+      document.getElementById('nome-produto').textContent = nomeProduto;
+      document.getElementById('modalDelecao').showModal();
+    }
+
+    function fecharModal() {
+      document.getElementById('modalDelecao').close();
+    }
+
+    function confirmarDelecao() {
+      const nomeProduto = document.getElementById('nome-produto').textContent;
+      alert(`Produto "${nomeProduto}" foi removido com sucesso!`);
+      fecharModal();
+    }
+  </script>
+
+</body>
+</html>
