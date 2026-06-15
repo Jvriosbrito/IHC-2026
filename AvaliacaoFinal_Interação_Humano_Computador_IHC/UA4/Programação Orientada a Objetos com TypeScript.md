@@ -63,8 +63,6 @@ class Venda {
         }
         return total;
         
-        // Alternativa mais enxuta usando reduce:
-        // return this.produtos.reduce((acc, produto) => acc + produto.valorComercial, 0);
     }
 }
 
