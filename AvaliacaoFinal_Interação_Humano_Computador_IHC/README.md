@@ -2,11 +2,11 @@
 
 ## Identificação do Estudante
 
-- Nome:
-- Matrícula:
-- Curso:
-- Polo:
-- Data de Entrega:
+- Nome: João Victor Rios Brito e Nascimento
+- Matrícula: 22400050
+- Curso: Ciêcias da Computação
+- Polo: Asa Norte
+- Data de Entrega: 17/06/2026
 
 ## Descrição Geral
 
@@ -132,6 +132,6 @@ Descreva os principais aprendizados obtidos durante a realização das atividade
 Declaro que este trabalho foi desenvolvido por mim, 
 respeitando as normas acadêmicas e de integridade estabelecidas pela instituição.
 
-**Nome do Estudante:** _______________________
+**Nome do Estudante:** João Victor Rios Brito e Nascimento
 
-**Data:** ____/____/________
+**Data:** 17/06/2026
