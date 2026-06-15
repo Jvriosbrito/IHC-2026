@@ -1,27 +1,27 @@
 UA2 – Interface, Interação e Affordance
 Análise de Interface Assistiva para Usuários com Deficiência Visual
 
-================================================================================
+
 OBJETIVO DA UNIDADE
-================================================================================
+
 
 Investigar como diferentes modalidades de interação e restrições físicas impactam 
 a experiência do usuário, propondo soluções multimodais que garantam inclusão e 
 autonomia para usuários com necessidades específicas, especialmente com deficiência 
 visual.
 
-================================================================================
+
 DESAFIO PROPOSTO
-================================================================================
+
 
 Identificar o tipo de interface e os equipamentos mais adequados para um sistema 
 utilizado por funcionários com deficiência visual (gerenciador de cursos, sistema 
 de agendamento de consultas médicas, ou similar), justificando a escolha com base 
 nos princípios de acessibilidade e IHC.
 
-================================================================================
+
 ANÁLISE DO PROBLEMA
-================================================================================
+
 
 Interfaces tradicionais baseadas em mouse e tela visual não atendem adequadamente 
 a usuários com deficiência visual. A dependência de elementos gráficos, ícones 
@@ -33,9 +33,8 @@ Problema Identificado:
 - Falta de feedback sonoro ou tátil
 - Incompatibilidade com tecnologias assistivas
 
-================================================================================
 SOLUÇÃO PROPOSTA: INTERFACE MULTIMODAL
-================================================================================
+
 
 1. TIPO DE INTERFACE RECOMENDADA
    
@@ -85,9 +84,9 @@ SOLUÇÃO PROPOSTA: INTERFACE MULTIMODAL
    Passo 5: Sistema confirma e continua
    "Especialidade selecionada: Oftalmologia. Qual data você prefere?"
 
-================================================================================
+
 BENEFÍCIOS DA SOLUÇÃO PROPOSTA
-================================================================================
+
 
 ✓ AUTONOMIA TOTAL
   O usuário pode realizar todas as tarefas de forma independente, sem necessidade 
@@ -106,9 +105,9 @@ BENEFÍCIOS DA SOLUÇÃO PROPOSTA
 ✓ REUTILIZAÇÃO DE CONHECIMENTO
   Usuários já familiarizados com leitores de tela podem usar o sistema imediatamente.
 
-================================================================================
+
 IMPLEMENTAÇÃO TÉCNICA
-================================================================================
+
 
 1. DESENVOLVIMENTO DA INTERFACE
    - Usar HTML5 semântico com tags apropriadas (<label>, <fieldset>, etc.)
@@ -131,9 +130,9 @@ IMPLEMENTAÇÃO TÉCNICA
    - Coletar feedback sobre usabilidade
    - Iterar e melhorar continuamente
 
-================================================================================
+
 CONCLUSÃO
-================================================================================
+
 
 A solução proposta garante que usuários com deficiência visual possam interagir 
 com o sistema de forma natural, independente e eficiente. Através da combinação 
